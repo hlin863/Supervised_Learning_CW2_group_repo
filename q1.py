@@ -32,3 +32,7 @@ for i in range(len(processed_data)): # loop through the lines to convert the dat
     processed_data[i] = list(np.array(processed_data[i], dtype=np.float)) # convert the data to floats
 
 print(processed_data[0]) # print the first line
+
+for i in range(len(processed_data)): # loop through the lines to remove the first column
+    digit = processed_data[i][0] # get the digit
+    processed_data[i] = processed_data[i][1:] # remove the first column
