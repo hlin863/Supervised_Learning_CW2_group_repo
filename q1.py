@@ -10,6 +10,8 @@ from load_data import load_data
 # import the train_test_split function from split_data.py
 from split_data import split_data
 
+import random # import the random library to help with schuffling the data. 
+
 # load the data
 data = load_data()
 
@@ -25,14 +27,42 @@ for line in data: # loop through the lines
 
     processed_data.append(line) # append the line to the processed_data list
 
-print(processed_data[0]) # print the first line
 
-for i in range(len(processed_data)): # loop through the lines to convert the data to floats
-    
-    processed_data[i] = list(np.array(processed_data[i], dtype=np.float)) # convert the data to floats
+for i in range(len(processed_data)): # loop through the lines
 
-print(processed_data[0]) # print the first line
+    processed_data[i] = [float(x) for x in processed_data[i]] # convert the columns to floats
 
-for i in range(len(processed_data)): # loop through the lines to remove the first column
+labels = [] # create an empty list to store the digits
+matrixs = [] # create an empty list to store the matrix value of the digits representing an image.
+
+
+for i in range(len(processed_data) - 1): # loop through the lines to remove the first column
+
     digit = processed_data[i][0] # get the digit
-    processed_data[i] = processed_data[i][1:] # remove the first column
+    matrix = processed_data[i][1:] # remove the first column
+
+    labels.append(digit) # append the digit to the labels list
+
+    matrixs.append(matrix) # append the matrix to the matrixs list
+
+# reshuffle the labels
+for i in range(20): # do 20 runs on the dataset.
+
+    # join digit and matrix
+    joined = list(zip(labels, matrixs))
+
+    # sort the joined list
+    joined.sort(key=lambda x: random.random())
+
+    # split the joined list
+    labels_random, matrixs_random = zip(*joined)
+
+    # convert the labels and matrixs to lists
+    labels_random = list(labels_random)
+
+    matrixs_random = list(matrixs_random)
+
+    if i == 0: # test the display for the first index.
+        print(labels_random[0]) # print the first digit
+
+        print(matrixs_random[0]) # print the first matrix
