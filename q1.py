@@ -62,7 +62,6 @@ for i in range(20): # do 20 runs on the dataset.
 
     matrixs_random = list(matrixs_random)
 
-    if i == 0: # test the display for the first index.
-        print(labels_random[0]) # print the first digit
+    X_train, X_test = split_data(matrixs_random) # split the data into training and testing data
 
-        print(matrixs_random[0]) # print the first matrix
+    y_train, y_test = split_data(labels_random) # split the labels into training and testing labels
