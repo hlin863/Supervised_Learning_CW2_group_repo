@@ -12,6 +12,7 @@ from split_data import split_data
 
 import random # import the random library to help with schuffling the data. 
 
+from multiclassperceptron import MultiClassPerceptron # import the multiclassperceptron class from multiclassperceptron.py
 # load the data
 data = load_data()
 
@@ -65,3 +66,7 @@ for i in range(20): # do 20 runs on the dataset.
     X_train, X_test = split_data(matrixs_random) # split the data into training and testing data
 
     y_train, y_test = split_data(labels_random) # split the labels into training and testing labels
+
+    for d in range(7): # for d in the range 7
+    
+        model = MultiClassPerceptron(10) # create a multi class perceptron model
