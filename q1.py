@@ -70,3 +70,7 @@ for i in range(20): # do 20 runs on the dataset.
     for d in range(7): # for d in the range 7
     
         model = MultiClassPerceptron(10) # create a multi class perceptron model
+
+        model.train(X_train, y_train) # train the model
+
+print("SUCCESS") # print success if the code runs without errors

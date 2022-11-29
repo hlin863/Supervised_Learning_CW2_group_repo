@@ -1,5 +1,10 @@
 # TODO - design a class for the multiclass perceptron
 
+import numpy as np
+
+def polynomial_kernel(x, y, p):
+    return (np.dot(x, y.T)) ** p
+
 class MultiClassPerceptron:
 
     def __init__(self, d):
@@ -13,6 +18,8 @@ class MultiClassPerceptron:
         self.number_of_classes = d # initialises the number of classes
 
         self.X_train = None # initialises a trainingset for the data.
+
+        self.y_train = None # initialises a trainingset for the labels.
     
     def train(self, X_train, y_train):
 
@@ -27,6 +34,8 @@ class MultiClassPerceptron:
 
         self.X_train = X_train # set the training data to the training data.
     
+        self.y_train = y_train # set the training labels to the training labels.
+
     def polynomial_fitting(self, degree):
 
         """
@@ -34,6 +43,4 @@ class MultiClassPerceptron:
         @param: degree is the degree of the polynomial to be fitted.
 
         """
-
-        # TODO - implement the polynomial fitting
-        pass
+        self.kernel = polynomial_kernel(self.X_train, self.y_train, degree) # set the kernel to the polynomial kernel.
