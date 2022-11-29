@@ -67,10 +67,22 @@ for i in range(20): # do 20 runs on the dataset.
 
     y_train, y_test = split_data(labels_random) # split the labels into training and testing labels
 
+    train_score_total = 0
+
     for d in range(7): # for d in the range 7
     
         model = MultiClassPerceptron(10) # create a multi class perceptron model
 
-        model.train(X_train, y_train) # train the model
+        model.polynomial_fitting(d) # fit the model to the data with the polynomial kernel of degree d. 
+
+        if i == 0 and d == 0:
+
+            train_scores = model.train(X_train, y_train) # train the model. 
+
+            train_score_total = train_score_total + train_scores[0]
+
+    if i == 0:
+
+        print("The average training score for degree 0 is: ", np.mean(train_score_total))
 
 print("SUCCESS") # print success if the code runs without errors
