@@ -86,6 +86,47 @@ class MultiClassPerceptron:
             index += 1 # increment the index.
 
             return train_scores
+    
+    def test(self, X_test, y_test):
+
+        """
+        
+        @param: X_test is the testing data.
+
+        @param: y_test is the testing labels.
+
+        """
+
+        n_X_test = len(X_test) # initialise the size of the testing data.
+
+        gram_matrix = self.kernel(self.X_train, X_test) # get the gram matrix.
+
+        running_mistakes = 0 # initialise the number of mistakes as 0.
+
+        confusion_matrix = np.zeros((self.number_of_classes, self.number_of_classes)) # initialise the confusion matrix as 0.
+
+        misclassifications = np.zeros((n_X_test)) # initialise the misclassifications as 0.
+
+        # iterate through the testing data
+        for i in range(n_X_test):
+            
+            y = y_test[i] # get the ith testing label.
+
+            confidences = np.dot(self.alpha, gram_matrix[:, i]) # get the confidences.
+
+            y_pred = np.argmax(confidences) # get the predicted label with the largest confidence score.
+
+            if y_pred != y: # if the predicted label is not the same as the actual label.
+
+                running_mistakes += 1 # increment the number of mistakes.
+
+                confusion_matrix[int(y), y_pred] += 1 # increment the confusion matrix.
+
+                misclassifications[i] += 1 # increment the misclassifications.
+
+        test_score = (n_X_test - running_mistakes) / n_X_test # get the test score.
+
+        return test_score, confusion_matrix, misclassifications # return the test score, confusion matrix and misclassifications.
 
     def polynomial_fitting(self, degree):
 

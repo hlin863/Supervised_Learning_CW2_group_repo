@@ -75,6 +75,10 @@ for i in range(20): # do 20 runs on the dataset.
 
         model.polynomial_fitting(d) # fit the model to the data with the polynomial kernel of degree d. 
 
+        train_scores = model.train(X_train, y_train) # train the model
+
+        test_scores, _, _ = model.test(X_test, y_test) # test the model
+
         if i == 0 and d == 0:
 
             train_scores = model.train(X_train, y_train) # train the model. 
