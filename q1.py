@@ -47,46 +47,50 @@ for i in range(len(processed_data) - 1): # loop through the lines to remove the 
     matrixs.append(matrix) # append the matrix to the matrixs list
 
 # reshuffle the labels
-for i in range(20): # do 20 runs on the dataset.
+for d in range(1, 8): # do 20 runs on the dataset.
 
-    # join digit and matrix
-    joined = list(zip(labels, matrixs))
+    train_scores = np.empty((20)) # create an empty array to store the training scores
 
-    # sort the joined list
-    joined.sort(key=lambda x: random.random())
+    test_scores = np.empty((20)) # initialise the test scores as an empty list.
 
-    # split the joined list
-    labels_random, matrixs_random = zip(*joined)
+    for runs in range(20):
 
-    # convert the labels and matrixs to lists
-    labels_random = list(labels_random)
+        # join digit and matrix
+        joined = list(zip(labels, matrixs))
 
-    matrixs_random = list(matrixs_random)
+        # sort the joined list
+        joined.sort(key=lambda x: random.random())
 
-    X_train, X_test = split_data(matrixs_random) # split the data into training and testing data
+        # split the joined list
+        labels_random, matrixs_random = zip(*joined)
 
-    y_train, y_test = split_data(labels_random) # split the labels into training and testing labels
+        # convert the labels and matrixs to lists
+        labels_random = list(labels_random)
 
-    train_score_total = 0
+        matrixs_random = list(matrixs_random)
 
-    for d in range(7): # for d in the range 7
+        X_train, X_test = split_data(matrixs_random) # split the data into training and testing data
+
+        y_train, y_test = split_data(labels_random) # split the labels into training and testing labels
     
         model = MultiClassPerceptron(10) # create a multi class perceptron model
 
         model.polynomial_fitting(d) # fit the model to the data with the polynomial kernel of degree d. 
 
-        train_scores = model.train(X_train, y_train) # train the model
+        train_score = model.train(X_train, y_train) # train the model
 
-        test_scores, _, _ = model.test(X_test, y_test) # test the model
+        test_score, _, _ = model.test(X_test, y_test) # test the model
 
-        if i == 0 and d == 0:
+        train_scores[runs] = train_score[0] # append the training score to the training scores list
 
-            train_scores = model.train(X_train, y_train) # train the model. 
+        test_scores[runs] = test_score # append the test score to the test scores list
 
-            train_score_total = train_score_total + train_scores[0]
+    print("The average training score for d = " + str(d) + " is " + str(np.mean(train_scores))) # print the average training score
 
-    if i == 0:
+    print("The standard deviation of the training score for d = " + str(d) + " is " + str(np.std(train_scores))) # print the standard deviation of the training score
 
-        print("The average training score for degree 0 is: ", np.mean(train_score_total))
+    print("The average test score for d = " + str(d) + " is " + str(np.mean(test_scores))) # print the average test score
+
+    print("The standard deviation of the test score for d = " + str(d) + " is " + str(np.std(test_scores))) # print the standard deviation of the test score
 
 print("SUCCESS") # print success if the code runs without errors
