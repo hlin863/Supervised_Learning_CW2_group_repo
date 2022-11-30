@@ -16,6 +16,8 @@ from multiclassperceptron import MultiClassPerceptron # import the multiclassper
 
 from cross_validation import cross_validation # import the cross_validation function from cross_validation.py
 
+from confusion import confusion_matrix_function # import the confusion_matrix_function from confusion.py
+
 # load the data
 data = load_data()
 
@@ -49,32 +51,34 @@ for i in range(len(processed_data) - 1): # loop through the lines to remove the 
 
     matrixs.append(matrix) # append the matrix to the matrixs list
 
+confusion_matrices = np.empty((20, 10, 10))
+
 # reshuffle the labels
-for d in range(1, 8): # do 20 runs on the dataset.
+for runs in range(20): # do 20 runs on the dataset.
 
-    train_scores = np.empty((20)) # create an empty array to store the training scores
+    # join digit and matrix
+    joined = list(zip(labels, matrixs))
 
-    test_scores = np.empty((20)) # initialise the test scores as an empty list.
+    # sort the joined list
+    joined.sort(key=lambda x: random.random())
 
-    for runs in range(20):
+    # split the joined list
+    labels_random, matrixs_random = zip(*joined)
 
-        # join digit and matrix
-        joined = list(zip(labels, matrixs))
+    # convert the labels and matrixs to lists
+    labels_random = list(labels_random)
 
-        # sort the joined list
-        joined.sort(key=lambda x: random.random())
+    matrixs_random = list(matrixs_random)
 
-        # split the joined list
-        labels_random, matrixs_random = zip(*joined)
+    X_train, X_test = split_data(matrixs_random) # split the data into training and testing data
 
-        # convert the labels and matrixs to lists
-        labels_random = list(labels_random)
+    y_train, y_test = split_data(labels_random) # split the labels into training and testing labels
 
-        matrixs_random = list(matrixs_random)
+    mean_test_scores = np.empty((7)) # initialise an empty array to store the mean test scores
 
-        X_train, X_test = split_data(matrixs_random) # split the data into training and testing data
+    misclassifications = np.zeros((len(matrixs_random[0]))) # initialise an array to store the misclassifications
 
-        y_train, y_test = split_data(labels_random) # split the labels into training and testing labels
+    for d in range(1, 8): # iterate through each polynomial degree
 
         cross_validation_data = cross_validation(X_train, y_train, 5) # perform 5 fold cross validation on the training data
 
@@ -96,7 +100,30 @@ for d in range(1, 8): # do 20 runs on the dataset.
 
             test_scores[index] = test_score # store the test score
 
-        print("Average training score for degree " + str(d) + " is " + str(np.mean(train_scores)) + " with cross-validation training. ") # print the average training score under cross validation
-        print("Average test score for degree " + str(d) + " is " + str(np.mean(test_scores)) + " with cross-validation training. ") # print the average test score under cross validation
+        mean_test_score = np.mean(test_scores) # get the mean test score
+
+        mean_test_scores[d - 1] = mean_test_score # store the mean test score
+    
+    argmax = np.argmax(mean_test_scores) # get the index of the maximum mean test score
+
+    degrees = [1, 2, 3, 4, 5, 6, 7] # create a list of the degrees
+
+    best_degree = degrees[argmax] # get the best degree
+
+    model = MultiClassPerceptron(10) # create a multi class perceptron model
+
+    model.polynomial_fitting(best_degree) # fit the model to the data with the polynomial kernel of degree d.
+
+    model.train(X_train, y_train) # train the model
+
+    test_score, confusion_matrix, _ = model.test(X_test, y_test) # test the model
+
+    data_score, _, misclassification = model.test(matrixs_random, labels_random) # test the model on the whole dataset
+
+    confusion_matrices[runs] = confusion_matrix_function(confusion_matrix)
+
+    # displays the confusion matrix
+    print("The confusion matrix for run " + str(runs) + " is: ")
+    print(confusion_matrices[runs])
 
 print("SUCCESS") # print success if the code runs without errors
