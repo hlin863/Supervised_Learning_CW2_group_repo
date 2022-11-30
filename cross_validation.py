@@ -25,6 +25,10 @@ def cross_validation(x, y, p):
 
         train_indices = np.setdiff1d(random_indexes, test_indices) # get the training indices
 
+        x = np.array(x) # convert the x to a numpy array
+
+        y = np.array(y) # convert the y to a numpy array
+
         x_train, x_test = x[train_indices], x[test_indices] # get the training and test data
 
         y_train, y_test = y[train_indices], y[test_indices] # get the training and test labels

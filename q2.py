@@ -96,4 +96,7 @@ for d in range(1, 8): # do 20 runs on the dataset.
 
             test_scores[index] = test_score # store the test score
 
+        print("Average training score for degree " + str(d) + " is " + str(np.mean(train_scores)) + " with cross-validation training. ") # print the average training score under cross validation
+        print("Average test score for degree " + str(d) + " is " + str(np.mean(test_scores)) + " with cross-validation training. ") # print the average test score under cross validation
+
 print("SUCCESS") # print success if the code runs without errors
