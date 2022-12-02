@@ -53,6 +53,8 @@ for i in range(len(processed_data) - 1): # loop through the lines to remove the 
 
 confusion_matrices = np.empty((20, 10, 10))
 
+misclassifications = np.empty((np.array(labels).shape[0]))
+
 # reshuffle the labels
 for runs in range(20): # do 20 runs on the dataset.
 
@@ -75,8 +77,6 @@ for runs in range(20): # do 20 runs on the dataset.
     y_train, y_test = split_data(labels_random) # split the labels into training and testing labels
 
     mean_test_scores = np.empty((7)) # initialise an empty array to store the mean test scores
-
-    misclassifications = np.zeros((len(matrixs_random[0]))) # initialise an array to store the misclassifications
 
     for d in range(1, 8): # iterate through each polynomial degree
 
@@ -126,6 +126,6 @@ for runs in range(20): # do 20 runs on the dataset.
     print("The confusion matrix for run " + str(runs) + " is: ")
     print(confusion_matrices[runs])
 
-    
+    misclassifications += misclassification
 
 print("SUCCESS") # print success if the code runs without errors
