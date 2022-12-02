@@ -18,6 +18,8 @@ from cross_validation import cross_validation # import the cross_validation func
 
 from confusion import confusion_matrix_function # import the confusion_matrix_function from confusion.py
 
+import matplotlib.pyplot as plt # import the matplotlib library
+
 # load the data
 data = load_data()
 
@@ -127,5 +129,21 @@ for runs in range(20): # do 20 runs on the dataset.
     print(confusion_matrices[runs])
 
     misclassifications += misclassification
+
+
+most_missclassified = np.argsort(misclassifications)[::-1][:5] # get the 5 most missclassified digits
+
+for i in range(5): # loop through the 5 most missclassified digits
+
+    plot_digit = matrixs_random[most_missclassified[i]] # get the digit
+
+    plot_digit = np.array(plot_digit).reshape(16, 16) # reshape the digit
+
+    plt.imshow(plot_digit, cmap='gray') # plot the digit
+
+    plt.title("Digit " + str(int(labels_random[most_missclassified[i]]))) # set the title of the plot
+
+    plt.show() # show the digit
+
 
 print("SUCCESS") # print success if the code runs without errors
