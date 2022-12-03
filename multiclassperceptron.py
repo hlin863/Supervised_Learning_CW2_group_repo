@@ -3,9 +3,39 @@
 import numpy as np
 
 def polynomial_kernel(x, y, p):
+
+    """
+    
+    This function computes the polynomial kernel of degree p between two vectors x and y.
+
+    @param x: a vector
+    @param y: a vector
+
+    @return: the polynomial kernel of degree p between x and y
+    
+    """
+
     x = np.array(x)
     y = np.array(y)
     return (np.dot(x, y.T)) ** p
+
+
+def gaussian_kernel(x, y, sigma):
+
+    """
+    
+    This function computes the gaussian kernel with standard deviation sigma between two vectors x and y.
+
+    @param x: a vector
+    @param y: a vector
+
+    @return: the gaussian kernel with standard deviation sigma between x and y
+    
+    """
+
+    x = np.array(x)
+    y = np.array(y)
+    return np.exp(-np.linalg.norm(x - y) ** 2 * sigma)
 
 class MultiClassPerceptron:
 
@@ -136,3 +166,13 @@ class MultiClassPerceptron:
 
         """
         self.kernel = lambda a, b: polynomial_kernel(a, b, degree) # set the kernel to the polynomial kernel.
+    
+    def gaussian_fitting(self, sigma):
+
+        """
+        
+        @param: sigma is the standard deviation of the gaussian to be fitted.
+
+        """
+        
+        self.kernel = lambda a, b: gaussian_kernel(a, b, sigma) # set the kernel to the gaussian kernel.
