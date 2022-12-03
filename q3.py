@@ -53,6 +53,8 @@ for i in range(len(processed_data) - 1): # loop through the lines to remove the 
 
 confusion_matrices = np.empty((20, 10, 10))
 
+confusion_matrice_stds = np.empty((20, 10, 10)) # initialise a variable to store the list of confusion matrices' standard deviations
+
 # reshuffle the labels
 for runs in range(20): # do 20 runs on the dataset.
 
@@ -122,8 +124,25 @@ for runs in range(20): # do 20 runs on the dataset.
 
     confusion_matrices[runs] = confusion_matrix_function(confusion_matrix)
 
+    confusion_matrix_std = np.std(confusion_matrices, axis=0) # calculate the standard deviation of the confusion matrices
+
+    confusion_matrice_stds[runs] = confusion_matrix_std
+
     # displays the confusion matrix
     print("The confusion matrix for run " + str(runs) + " is: ")
-    print(confusion_matrices[runs])
+
+    print("[")
+
+    for i in range(len(confusion_matrix)):
+
+        row = ""
+
+        for j in range(len(confusion_matrix[i])):
+            
+            row = row + (str(confusion_matrix[i][j]) + "+/-" + str(confusion_matrix_std[i][j]))
+
+        print("[" + row + "]")
+
+    print("]")
 
 print("SUCCESS") # print success if the code runs without errors

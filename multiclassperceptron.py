@@ -1,6 +1,7 @@
 # TODO - design a class for the multiclass perceptron
 
-import numpy as np
+import numpy as np # import the numpy library
+from scipy.spatial.distance import cdist
 
 def polynomial_kernel(x, y, p):
 
@@ -35,7 +36,9 @@ def gaussian_kernel(x, y, sigma):
 
     x = np.array(x)
     y = np.array(y)
-    return np.exp(-np.linalg.norm(x - y) ** 2 * sigma)
+    
+    # formula e^-sigma * ||x - y||^2
+    return np.exp(-sigma * cdist(x, y) ** 2)
 
 class MultiClassPerceptron:
 
@@ -90,6 +93,8 @@ class MultiClassPerceptron:
                 x = X_train[i] # get the ith training data.
 
                 y = y_train[i] # get the ith training label.
+
+                # print(gram_matrix[i])
 
                 confidences = np.dot(self.alpha, gram_matrix[i]) # get the confidences.
 
