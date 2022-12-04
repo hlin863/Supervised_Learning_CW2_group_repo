@@ -8,10 +8,8 @@ def polynomial_kernel(x, y, p):
     """
     
     This function computes the polynomial kernel of degree p between two vectors x and y.
-
     @param x: a vector
     @param y: a vector
-
     @return: the polynomial kernel of degree p between x and y
     
     """
@@ -20,65 +18,14 @@ def polynomial_kernel(x, y, p):
     y = np.array(y)
     return (np.dot(x, y.T)) ** p
 
-def winnow_algorithm(x, y):
-
-    """
-    
-    Implement a winnow algorithm to classify the data.
-
-    @param x: a vector
-
-    @param y: a vector
-    
-    @return: the weights of the winnow algorithm
-
-    """
-
-    w = 1 # initialise the weights to 1
-
-    for i in range(len(x)): # loop through the data
-
-        # receive the pattern x
-        x_val = x[i]
-
-        # receive the label y
-        y_val = y[i]
-
-        # compute the prediction
-        y_hat = np.sign(w * x_val)
-
-        # if the prediction is wrong
-        if y_hat != y_val:
-
-            # update the weights
-            w = w * (2 ** ((y_val - y_hat) * x_val))
-
-    return w
-
-def winnow_kernel(x, y, p):
-
-    """
-    This function applies the kernel extension to the winnow algorithm.
-    
-    @param x: a vector
-
-    @param y: a vector
-
-    @return: the weights of the winnow algorithm
-
-    """
-
-    return gaussian_kernel(x, y, p) # place-holder for the code.
 
 def gaussian_kernel(x, y, sigma):
 
     """
     
     This function computes the gaussian kernel with standard deviation sigma between two vectors x and y.
-
     @param x: a vector
     @param y: a vector
-
     @return: the gaussian kernel with standard deviation sigma between x and y
     
     """
@@ -111,7 +58,6 @@ class MultiClassPerceptron:
         
         @param: X_train is the training data.
         @param: y_train is the training labels.
-
         """
 
         self.X_train = X_train # set the training data to the training data.
@@ -176,9 +122,7 @@ class MultiClassPerceptron:
         """
         
         @param: X_test is the testing data.
-
         @param: y_test is the testing labels.
-
         """
 
         n_X_test = len(X_test) # initialise the size of the testing data.
@@ -217,7 +161,6 @@ class MultiClassPerceptron:
         """
         
         @param: degree is the degree of the polynomial to be fitted.
-
         """
         self.kernel = lambda a, b: polynomial_kernel(a, b, degree) # set the kernel to the polynomial kernel.
     
@@ -226,17 +169,6 @@ class MultiClassPerceptron:
         """
         
         @param: sigma is the standard deviation of the gaussian to be fitted.
-
         """
         
         self.kernel = lambda a, b: gaussian_kernel(a, b, sigma) # set the kernel to the gaussian kernel.
-    
-    def winnow_fitting(self, p):
-
-        """
-        
-        @param: p is the parameter for the winnow algorithm.
-
-        """
-
-        self.kernel = lambda a, b: winnow_kernel(a, b, p)
