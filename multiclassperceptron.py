@@ -20,6 +20,55 @@ def polynomial_kernel(x, y, p):
     y = np.array(y)
     return (np.dot(x, y.T)) ** p
 
+def winnow_algorithm(x, y):
+
+    """
+    
+    Implement a winnow algorithm to classify the data.
+
+    @param x: a vector
+
+    @param y: a vector
+    
+    @return: the weights of the winnow algorithm
+
+    """
+
+    w = 1 # initialise the weights to 1
+
+    for i in range(len(x)): # loop through the data
+
+        # receive the pattern x
+        x_val = x[i]
+
+        # receive the label y
+        y_val = y[i]
+
+        # compute the prediction
+        y_hat = np.sign(w * x_val)
+
+        # if the prediction is wrong
+        if y_hat != y_val:
+
+            # update the weights
+            w = w * (2 ** ((y_val - y_hat) * x_val))
+
+    return w
+
+def winnow_kernel(x, y, p):
+
+    """
+    This function applies the kernel extension to the winnow algorithm.
+    
+    @param x: a vector
+
+    @param y: a vector
+
+    @return: the weights of the winnow algorithm
+
+    """
+
+    return gaussian_kernel(x, y, p) # place-holder for the code.
 
 def gaussian_kernel(x, y, sigma):
 
