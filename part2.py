@@ -70,31 +70,33 @@ def laplacian_kernel_introp(X, y, sample_idx):
 def run_protocol():
     ds_size = [50, 100, 200, 400]
     l_size = [1,2,4,8,16]
-    tables = np.zeros((len(ds_size), len(l_size), 2))
+    tables = np.zeros((len(ds_size), len(l_size), 2, 2))
     for i, sz in enumerate(ds_size):
         X, y = load_dataset("dtrain13_{}.dat".format(sz))
         clss_1 = np.arange(0, sz, 1, int)
         clss_2 = np.arange(sz, sz * 2, 1, int)
         for j, l in enumerate(l_size):
-            errLI = 0
-            errKLI = 0
+            errLI = []
+            errKLI = []
             for _ in range(20):
                 sampled_clss_1 = np.random.choice(clss_1, (l,), replace=False)
                 sampled_clss_2 = np.random.choice(clss_2, (l,), replace=False)
                 L_cal = np.hstack([sampled_clss_1, sampled_clss_2])
-                errLI += laplacian_introp(X, y, L_cal)
-                errKLI += laplacian_kernel_introp(X, y, L_cal)
-            tables[i, j, 0] = errLI / 20
-            tables[i, j, 1] = errKLI / 20
-            print("size={}, l={}: eli={}, ekli={}".format(sz, l, tables[i, j, 0], tables[i, j, 1]))
+                errLI.append(laplacian_introp(X, y, L_cal))
+                errKLI.append(laplacian_kernel_introp(X, y, L_cal))
+            tables[i, j, 0, 0] = np.mean(errLI)
+            tables[i, j, 1, 0] = np.std(errLI)
+            tables[i, j, 0, 1] = np.mean(errKLI)
+            tables[i, j, 1, 1] = np.std(errKLI)
+            print("size={}, l={}: eli={}, ekli={}".format(sz, l, tables[i, j, :, 0], tables[i, j, :, 1]))
     return tables
 
 def main():
     tables = run_protocol()
-    print("\nSemi-norm:")
-    print(tables[:,:,0])
-    print("\nKernelized:")
-    print(tables[:,:,1])
+    print("\nSemi-norm (mean):")
+    print(tables[:,:, 0, 0])
+    print("\nKernelized (mean):")
+    print(tables[:,:, 0, 1])
 
 if __name__ == "__main__":
     main()
