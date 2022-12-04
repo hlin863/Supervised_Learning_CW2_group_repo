@@ -230,3 +230,13 @@ class MultiClassPerceptron:
         """
         
         self.kernel = lambda a, b: gaussian_kernel(a, b, sigma) # set the kernel to the gaussian kernel.
+    
+    def winnow_fitting(self, p):
+
+        """
+        
+        @param: p is the parameter for the winnow algorithm.
+
+        """
+
+        self.kernel = lambda a, b: winnow_kernel(a, b, p)
