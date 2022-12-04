@@ -55,8 +55,13 @@ class MultiClassPerceptronOvO:
     key = tuple(sorted([i, j]))
     return self.class_combinations_to_alpha_index[key]
   
-  def set_polynomial_kernel(self, degree):
-    self.kernel = lambda x, y: polynomial_kernel(x, y, degree)
+  def polynomial_fitting(self, degree):
+
+        """
+        
+        @param: degree is the degree of the polynomial to be fitted.
+        """
+        self.kernel = lambda a, b: polynomial_kernel(a, b, degree) # set the kernel to the polynomial kernel.
 
   def __predict(self, K_matrix, example):
     """
@@ -79,6 +84,10 @@ class MultiClassPerceptronOvO:
     return y_hat, multiclass_predictions
 
   def train(self, X_train, y_train):
+
+    X_train = np.array(X_train)
+
+    y_train = np.array(y_train)
 
     # Initialisation
     num_examples = X_train.shape[0]
@@ -141,6 +150,10 @@ class MultiClassPerceptronOvO:
     return train_accuracy_list
 
   def test(self, X_test, y_test):
+
+    X_test = np.array(X_test)
+
+    y_test = np.array(y_test)
 
     num_examples = X_test.shape[0]
 

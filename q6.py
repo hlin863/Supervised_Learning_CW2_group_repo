@@ -12,7 +12,7 @@ from split_data import split_data
 
 import random # import the random library to help with schuffling the data. 
 
-from multiclassperceptron import MultiClassPerceptron # import the multiclassperceptron class from multiclassperceptron.py
+from q6_multi_perceptron import MultiClassPerceptronOvO # import the multiclassperceptron class from multiclassperceptron.py
 # load the data
 data = load_data()
 
@@ -73,9 +73,9 @@ for d in range(1, 8): # do 20 runs on the dataset.
 
         y_train, y_test = split_data(labels_random) # split the labels into training and testing labels
     
-        model = MultiClassPerceptron(10) # create a multi class perceptron model
+        model = MultiClassPerceptronOvO(10) # create a multi class perceptron model
 
-        model.gaussian_fitting(d) # fit the model to the data with the polynomial kernel of degree d. 
+        model.polynomial_fitting(d) # fit the model to the data with the polynomial kernel of degree d. 
 
         train_score = model.train(X_train, y_train) # train the model
 
