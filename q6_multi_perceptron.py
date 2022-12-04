@@ -1,5 +1,25 @@
+
+from itertools import combinations # import the combinations library.
+
+import numpy as np # import the numpy library
+
 MIN_EPOCHS = 2
 MAX_EPOCHS = 50
+
+def polynomial_kernel(x, y, p):
+
+    """
+    
+    This function computes the polynomial kernel of degree p between two vectors x and y.
+    @param x: a vector
+    @param y: a vector
+    @return: the polynomial kernel of degree p between x and y
+    
+    """
+
+    x = np.array(x)
+    y = np.array(y)
+    return (np.dot(x, y.T)) ** p
 
 class MultiClassPerceptronOvO:
   """
@@ -7,6 +27,14 @@ class MultiClassPerceptronOvO:
   """
 
   def __init__(self, num_classes):
+
+    """
+
+    This function initialises the MultiClassPerceptronOvO class.
+    
+    @param: num_classes: number of classes for the custom kernel peceptron algorithm. 
+    
+    """
     self.num_classes = num_classes
     self.num_classifiers = int(num_classes * (num_classes - 1) / 2)
 
@@ -14,10 +42,10 @@ class MultiClassPerceptronOvO:
     self.class_combinations_to_alpha_index = dict(zip(self.class_combinations, range(self.num_classifiers)))
 
     # Initialised by set_polynomial_kernel method
-    self.kernel_function = None
+    self.kernel = None
 
     # Initialised by train method
-    self.train_xs = None
+    self.X_train = None
     self.alpha = None
 
   def __get_alpha_index(self, i, j):
@@ -28,7 +56,7 @@ class MultiClassPerceptronOvO:
     return self.class_combinations_to_alpha_index[key]
   
   def set_polynomial_kernel(self, degree):
-    self.kernel_function = lambda x, y: polynomial_kernel(x, y, degree)
+    self.kernel = lambda x, y: polynomial_kernel(x, y, degree)
 
   def __predict(self, K_matrix, example):
     """
@@ -50,15 +78,15 @@ class MultiClassPerceptronOvO:
 
     return y_hat, multiclass_predictions
 
-  def train(self, train_xs, train_ys):
+  def train(self, X_train, y_train):
 
     # Initialisation
-    num_examples = train_xs.shape[0]
-    self.train_xs = train_xs
+    num_examples = X_train.shape[0]
+    self.X_train = X_train
     self.alpha = np.zeros((self.num_classifiers, num_examples))
 
     # Compute Gram matrix, K
-    gram_matrix = self.kernel_function(train_xs, train_xs)
+    gram_matrix = self.kernel(X_train, X_train)
 
     # Training loop
     running_mistakes = 0
@@ -76,8 +104,8 @@ class MultiClassPerceptronOvO:
       np.random.shuffle(shuffled_indices)
 
       for example in shuffled_indices:
-        x = train_xs[example]
-        y = train_ys[example]
+        x = X_train[example]
+        y = y_train[example]
         
         # Predict (most votes)
         y_hat, multiclass_predictions = self.__predict(gram_matrix, example)
@@ -112,19 +140,19 @@ class MultiClassPerceptronOvO:
                 
     return train_accuracy_list
 
-  def test(self, test_xs, test_ys):
+  def test(self, X_test, y_test):
 
-    num_examples = test_xs.shape[0]
+    num_examples = X_test.shape[0]
 
     # Compute kernel matrix, K
-    K_matrix = self.kernel_function(self.train_xs, test_xs)
+    K_matrix = self.kernel(self.X_train, X_test)
 
     running_mistakes = 0
     confusion_matrix = np.zeros((self.num_classes, self.num_classes))
 
     # Make a prediction for each example
     for example in range(num_examples):
-      y = test_ys[example]
+      y = y_test[example]
 
       # Predict (most votes)
       y_hat, _ = self.__predict(K_matrix, example)
