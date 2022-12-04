@@ -79,7 +79,7 @@ for d in range(1, 8): # do 20 runs on the dataset.
 
         train_score = model.train(X_train, y_train) # train the model
 
-        test_score, _, _ = model.test(X_test, y_test) # test the model
+        test_score, _ = model.test(X_test, y_test) # test the model
 
         train_scores[runs] = train_score[0] # append the training score to the training scores list
 

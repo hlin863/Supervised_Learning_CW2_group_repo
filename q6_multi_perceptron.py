@@ -173,7 +173,7 @@ class MultiClassPerceptronOvO:
       # Track mistakes
       if (y_hat != y):
         running_mistakes += 1
-        confusion_matrix[y][y_hat] += 1
+        confusion_matrix[int(y)][int(y_hat)] += 1
     
     # Calculate test accuracy
     test_accuracy = (num_examples - running_mistakes) / float(num_examples)
