@@ -143,7 +143,7 @@ class MultiClassPerceptronOvO:
           converged = True
 
           # Count number of non-zero alpha vector elements per class
-          print(f"Number of non-zero alpha vector elements per class: {np.count_nonzero(self.alpha, axis=1)}")
+          # print(f"Number of non-zero alpha vector elements per class: {np.count_nonzero(self.alpha, axis=1)}")
       
       epoch += 1
                 

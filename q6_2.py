@@ -12,7 +12,7 @@ from split_data import split_data
 
 import random # import the random library to help with schuffling the data. 
 
-from multiclassperceptron import MultiClassPerceptron # import the multiclassperceptron class from multiclassperceptron.py
+from q6_multi_perceptron import MultiClassPerceptronOvO # import the multiclassperceptron class from multiclassperceptron.py
 
 from cross_validation import cross_validation # import the cross_validation function from cross_validation.py
 
@@ -84,13 +84,13 @@ for d in range(1, 8): # do 20 runs on the dataset.
     
         for index, (X_train, y_train, X_test, y_test) in enumerate(cross_validation_data): # loop through the cross validation data
 
-            model = MultiClassPerceptron(10) # create a multi class perceptron model
+            model = MultiClassPerceptronOvO(10) # create a multi class perceptron model
 
             model.polynomial_fitting(d) # fit the model to the data with the polynomial kernel of degree d. 
 
             train_score = model.train(X_train, y_train)[0] # train the model
 
-            test_score, _, _ = model.test(X_test, y_test) # test the model
+            test_score, _ = model.test(X_test, y_test) # test the model
 
             train_scores[index] = train_score # store the training score
 
@@ -98,5 +98,8 @@ for d in range(1, 8): # do 20 runs on the dataset.
 
         print("Average training score for degree " + str(d) + " is " + str(np.mean(train_scores)) + " with cross-validation training. ") # print the average training score under cross validation
         print("Average test score for degree " + str(d) + " is " + str(np.mean(test_scores)) + " with cross-validation training. ") # print the average test score under cross validation
+
+        print("Average training standard deviation for degree " + str(d) + " is " + str(np.std(train_scores)) + " with cross-validation training. ") # print the average training score under cross validation
+        print("Average test standard deviation for degree " + str(d) + " is " + str(np.std(test_scores)) + " with cross-validation training. ") # print the average test score under cross validation
 
 print("SUCCESS") # print success if the code runs without errors
