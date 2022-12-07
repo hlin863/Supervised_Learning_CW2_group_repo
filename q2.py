@@ -16,6 +16,8 @@ from multiclassperceptron import MultiClassPerceptron # import the multiclassper
 
 from cross_validation import cross_validation # import the cross_validation function from cross_validation.py
 
+import pandas as pd # import the pandas library to help with the confusion matrix
+
 # load the data
 data = load_data()
 
@@ -49,32 +51,37 @@ for i in range(len(processed_data) - 1): # loop through the lines to remove the 
 
     matrixs.append(matrix) # append the matrix to the matrixs list
 
+train_scores = np.empty((20)) # create an empty array to store the training scores
+
+test_scores = np.empty((20)) # initialise the test scores as an empty list.
+
 # reshuffle the labels
-for d in range(1, 8): # do 20 runs on the dataset.
+for runs in range(20): # perform 20 runs
 
-    train_scores = np.empty((20)) # create an empty array to store the training scores
+    train_score_list = np.empty((8)) # create an empty array to store the training scores
+    test_score_list = np.empty((8)) # initialise the test scores as an empty list.
+    train_std_list = np.empty((8)) # create an empty array to store the training standard deviations
+    test_std_list = np.empty((8)) # initialise the test standard deviations as an empty list.
 
-    test_scores = np.empty((20)) # initialise the test scores as an empty list.
+    # join digit and matrix
+    joined = list(zip(labels, matrixs))
 
-    for runs in range(20):
+    # sort the joined list
+    joined.sort(key=lambda x: random.random())
 
-        # join digit and matrix
-        joined = list(zip(labels, matrixs))
+    # split the joined list
+    labels_random, matrixs_random = zip(*joined)
 
-        # sort the joined list
-        joined.sort(key=lambda x: random.random())
+    # convert the labels and matrixs to lists
+    labels_random = list(labels_random)
 
-        # split the joined list
-        labels_random, matrixs_random = zip(*joined)
+    matrixs_random = list(matrixs_random)
 
-        # convert the labels and matrixs to lists
-        labels_random = list(labels_random)
+    X_train, X_test = split_data(matrixs_random) # split the data into training and testing data
 
-        matrixs_random = list(matrixs_random)
+    y_train, y_test = split_data(labels_random) # split the labels into training and testing labels
 
-        X_train, X_test = split_data(matrixs_random) # split the data into training and testing data
-
-        y_train, y_test = split_data(labels_random) # split the labels into training and testing labels
+    for d in range(8): # iterate through the different polynomial degrees.
 
         cross_validation_data = cross_validation(X_train, y_train, 5) # perform 5 fold cross validation on the training data
 
@@ -95,8 +102,19 @@ for d in range(1, 8): # do 20 runs on the dataset.
             train_scores[index] = train_score # store the training score
 
             test_scores[index] = test_score # store the test score
+        
+        train_score_list[d] = np.mean(train_scores) # store the average training score
+        test_score_list[d] = np.mean(test_scores) # store the average test score
+
+        train_std_list[d] = np.std(train_scores) # store the standard deviation of the training scores
+        test_std_list[d] = np.std(test_scores) # store the standard deviation of the test scores
 
         print("Average training score for degree " + str(d) + " is " + str(np.mean(train_scores)) + " with cross-validation training. ") # print the average training score under cross validation
         print("Average test score for degree " + str(d) + " is " + str(np.mean(test_scores)) + " with cross-validation training. ") # print the average test score under cross validation
+
+    # selects the degree with the highest test score from test_score_list. 
+    best_degree = np.argmax(test_score_list)
+
+    print("The best degree is " + str(best_degree) + " with a test score of " + str(test_score_list[best_degree])) # print the best degree
 
 print("SUCCESS") # print success if the code runs without errors
