@@ -128,6 +128,22 @@ for runs in range(20): # perform 20 runs
 
 print("The average test error is: ", np.mean(test_errors)) # print the average test error
 
+print("The test error standard deviation is: ", np.std(test_errors)) # print the test error standard deviation
+
 print("The average best degree is: ", np.mean(best_degrees)) # print the average best degree
+
+print("The best degree standard deviation is: ", np.std(best_degrees)) # print the best degree standard deviation
+
+# convert the test errors to a pandas dataframe
+test_errors_df = pd.DataFrame(test_errors)
+
+# convert the best degrees to a pandas dataframe
+best_degrees_df = pd.DataFrame(best_degrees)
+
+# save the test errors to a csv file
+test_errors_df.to_csv("test_errors.csv")
+
+# save the best degrees to a csv file
+best_degrees_df.to_csv("best_degrees.csv")
 
 print("SUCCESS") # print success if the code runs without errors
