@@ -51,9 +51,9 @@ for i in range(len(processed_data) - 1): # loop through the lines to remove the 
 
     matrixs.append(matrix) # append the matrix to the matrixs list
 
-train_scores = np.empty((20)) # create an empty array to store the training scores
+test_errors = np.empty((20)) # initialise the test scores as an empty list to store the test errors for each run.
 
-test_scores = np.empty((20)) # initialise the test scores as an empty list.
+best_degrees = np.empty((20)) # initialise the best degrees as an empty list to store the best degree for each run.
 
 # reshuffle the labels
 for runs in range(20): # perform 20 runs
@@ -109,12 +109,25 @@ for runs in range(20): # perform 20 runs
         train_std_list[d] = np.std(train_scores) # store the standard deviation of the training scores
         test_std_list[d] = np.std(test_scores) # store the standard deviation of the test scores
 
-        print("Average training score for degree " + str(d) + " is " + str(np.mean(train_scores)) + " with cross-validation training. ") # print the average training score under cross validation
-        print("Average test score for degree " + str(d) + " is " + str(np.mean(test_scores)) + " with cross-validation training. ") # print the average test score under cross validation
-
     # selects the degree with the highest test score from test_score_list. 
-    best_degree = np.argmax(test_score_list)
+    best_degree = np.argmax(test_score_list) # determines the "best" parameter d for retrain on the full training and testing set.
 
-    print("The best degree is " + str(best_degree) + " with a test score of " + str(test_score_list[best_degree])) # print the best degree
+    model = MultiClassPerceptron(10) # create a multi class perceptron model
+
+    model.polynomial_fitting(best_degree) # fit the model to the data with the polynomial kernel of degree d.
+
+    best_train_score = model.train(X_train, y_train)[0] # train the model
+
+    best_test_score, _, _ = model.test(X_test, y_test) # test the model
+
+    best_test_error = 1 - best_test_score # calculate the test error on the remaining 20% test data. 
+
+    test_errors[runs] = best_test_error # store the test error
+
+    best_degrees[runs] = best_degree # store the best degree
+
+print("The average test error is: ", np.mean(test_errors)) # print the average test error
+
+print("The average best degree is: ", np.mean(best_degrees)) # print the average best degree
 
 print("SUCCESS") # print success if the code runs without errors
