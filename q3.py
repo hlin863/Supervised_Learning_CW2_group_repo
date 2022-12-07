@@ -18,6 +18,8 @@ from cross_validation import cross_validation # import the cross_validation func
 
 from confusion import confusion_matrix_function # import the confusion_matrix_function from confusion.py
 
+import matplotlib.pyplot as plt # import the matplotlib library for plotting the confusion matrix.
+
 # load the data
 data = load_data()
 
@@ -144,5 +146,24 @@ for runs in range(20): # do 20 runs on the dataset.
         print("[" + row + "]")
 
     print("]")
+
+    # the following code section aims to visualise the confusion matrices. 
+
+    # use the matplotlib library to plot the confusion matrix
+    fig, ax = plt.subplots()
+
+    im = ax.imshow(confusion_matrix)
+
+    # We want to show all ticks...
+    ax.set_xticks(np.arange(len(confusion_matrix)))
+
+    ax.set_yticks(np.arange(len(confusion_matrix)))
+
+    # ... and label them with the respective list entries
+    ax.set_xticklabels(np.arange(len(confusion_matrix)))
+
+    ax.set_yticklabels(np.arange(len(confusion_matrix)))
+
+    plt.show()
 
 print("SUCCESS") # print success if the code runs without errors
