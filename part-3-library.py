@@ -81,3 +81,17 @@ def perceptron_algorithm(X, y):
         weights.append(w)
 
     return weights
+
+
+def mistake(y_pred, y_target):
+
+    """
+    
+    Provides an implementation for the mistake function.
+
+    @param y_pred: The predicted labels.
+    @param y_target: The target labels.
+    
+    """
+
+    pass
