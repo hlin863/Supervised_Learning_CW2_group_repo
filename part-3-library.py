@@ -40,3 +40,40 @@ def winnow_algorithm(X, y):
         weights.append(w)
 
     return weights
+
+def perceptron_algorithm(X, y):
+
+    """
+    
+    Provides an implementation for the perceptron algorithm.
+
+    @param X: The input data.
+    @param y: The labels.
+    
+    """
+
+    # intialise a list to store the weights.
+
+    weights = []
+
+    w = np.zeros(len(X[0])) # initialize the weight vector to 0.
+
+    weights.append(w)
+
+    for t in range(len(X)): # iterate over the data from t = 1 to m.
+
+        # receive patterns x = {0, 1}
+        x = X[t]
+
+        # predict y_pred
+        y_pred = np.sign(np.dot(w, x))
+
+        y_target = y[t]
+
+        if y_pred != y_target: # if the prediction is wrong, update the weights.
+
+            w = w + y_target * x
+
+        weights.append(w)
+
+    return weights
