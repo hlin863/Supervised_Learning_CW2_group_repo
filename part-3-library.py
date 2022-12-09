@@ -83,6 +83,27 @@ def perceptron_algorithm(X, y):
     return weights
 
 
+def least_squares_algorithm(y_pred, y):
+
+    """
+
+    Provides an implementation for the least squares algorithm.
+
+    @param y_pred: The predicted labels.
+
+    @param y: The labels.
+
+    """
+
+    # find the difference between y_pred and y squared.
+    difference_squared = (y_pred - y) ** 2
+
+    # find the minimal difference between y_pred and y squared.
+    min_difference_squared = np.min(difference_squared)
+
+    return min_difference_squared
+    
+
 def mistake(y_pred, y_target):
 
     """
