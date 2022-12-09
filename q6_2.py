@@ -114,7 +114,7 @@ for runs in range(20): # perform 20 runs
 
     model = MultiClassPerceptronOvO(10) # create a multi class perceptron model
 
-    model.polynomial_fitting(best_degree) # fit the model to the data with the polynomial kernel of degree d.
+    model.gaussian_fitting(best_degree) # fit the model to the data with the polynomial kernel of degree d.
 
     best_train_score = model.train(X_train, y_train)[0] # train the model
 

@@ -1,6 +1,8 @@
 
 from itertools import combinations # import the combinations library.
 
+from scipy.spatial.distance import cdist
+
 import numpy as np # import the numpy library
 
 MIN_EPOCHS = 2
@@ -20,6 +22,23 @@ def polynomial_kernel(x, y, p):
     x = np.array(x)
     y = np.array(y)
     return (np.dot(x, y.T)) ** p
+
+def gaussian_kernel(x, y, sigma):
+
+    """
+    
+    This function computes the gaussian kernel with standard deviation sigma between two vectors x and y.
+    @param x: a vector
+    @param y: a vector
+    @return: the gaussian kernel with standard deviation sigma between x and y
+    
+    """
+
+    x = np.array(x)
+    y = np.array(y)
+    
+    # formula e^-sigma * ||x - y||^2
+    return np.exp(-sigma * cdist(x, y) ** 2)
 
 class MultiClassPerceptronOvO:
   """
@@ -62,6 +81,14 @@ class MultiClassPerceptronOvO:
         @param: degree is the degree of the polynomial to be fitted.
         """
         self.kernel = lambda a, b: polynomial_kernel(a, b, degree) # set the kernel to the polynomial kernel.
+  
+  def gaussian_fitting(self, sigma):
+
+        """
+        
+        @param: sigma is the standard deviation of the gaussian kernel.
+        """
+        self.kernel = lambda a, b: gaussian_kernel(a, b, sigma) # set the kernel to the gaussian kernel.
 
   def __predict(self, K_matrix, example):
     """

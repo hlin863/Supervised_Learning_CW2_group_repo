@@ -75,7 +75,7 @@ for d in range(1, 8): # do 20 runs on the dataset.
     
         model = MultiClassPerceptronOvO(10) # create a multi class perceptron model
 
-        model.polynomial_fitting(d) # fit the model to the data with the polynomial kernel of degree d. 
+        model.gaussian_fitting(d) # fit the model to the data with the polynomial kernel of degree d. 
 
         train_score = model.train(X_train, y_train) # train the model
 
