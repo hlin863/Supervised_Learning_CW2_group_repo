@@ -99,6 +99,8 @@ class MultiClassPerceptron:
 
                 if y_pred != y: # if the predicted label is not the same as the actual label.
 
+                    running_mistakes += 1 # increment the number of mistakes.
+
                     self.alpha[int(y), i] += 1 # increment the alpha value for the actual label.
 
                     self.alpha[y_pred, i] -= 1 # decrement the alpha value for the predicted label.
