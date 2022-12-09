@@ -164,6 +164,9 @@ for runs in range(20): # do 20 runs on the dataset.
 
     ax.set_yticklabels(np.arange(len(confusion_matrix)))
 
-    plt.show()
+    fig.colorbar(im) # create a colour bar to highlight the images. 
+
+    # saves the plot as a png file in Q3_confusion_matrices folder
+    plt.savefig("Q3_confusion_matrices/confusion_matrix_" + str(runs) + ".png")
 
 print("SUCCESS") # print success if the code runs without errors
