@@ -101,8 +101,7 @@ def least_squares_algorithm(y_pred, y):
     # find the minimal difference between y_pred and y squared.
     min_difference_squared = np.min(difference_squared)
 
-    return min_difference_squared
-    
+    return min_difference_squared    
 
 def mistake(y_pred, y_target):
 
