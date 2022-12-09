@@ -2,7 +2,9 @@
 ### Library to implement the algorithms: perceptron, winnow, least-squares and 1-NN ###
 #######################################################################################
 
-import numpy as np
+import numpy as np # import the numpy library to perform mathematical operations.
+
+import matplotlib.pyplot as plt # import the matplotlib library to plot the data.
 
 def winnow_algorithm(X, y):
 
@@ -115,3 +117,29 @@ def mistake(y_pred, y_target):
     """
 
     pass
+
+classifiers = ["perceptron", "winnow", "least-squares", "1-NN"] # create a list to store the classifiers.
+
+
+def plot_complexity(classifier_function, dimensions, samples_per_dimension):
+
+    """
+    
+    Provides an implementation for plotting the complexity of the algorithms.
+
+    @param classifier_function: The classifier function.
+
+    @param dimensions: The dimensions.
+
+    @param samples_per_dimension: The samples per dimension.
+    
+    """
+
+    plt.plot(dimensions, samples_per_dimension, label=classifier_function.__name__) # plot the complexity of the algorithms.
+
+    plt.xlabel("Dimensions") # set the x-axis label.
+
+    plt.ylabel("Samples per dimension") # set the y-axis label.
+
+    plt.savefig("complexity.png") # save the plot as a png file.
+
