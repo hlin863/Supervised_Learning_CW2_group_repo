@@ -52,13 +52,15 @@ def perceptron_algorithm(X, y):
     
     """
 
-    # intialise a list to store the weights.
+    weights = [] # intialise a list to store the weights.
 
-    weights = []
+    M = [] # initialise a list to store the margin.
 
     w = np.zeros(len(X[0])) # initialize the weight vector to 0.
 
-    weights.append(w)
+    weights.append(w) # append the initial weight vector.
+
+    M.append(0) # append the initial margin.
 
     for t in range(len(X)): # iterate over the data from t = 1 to m.
 
@@ -69,6 +71,8 @@ def perceptron_algorithm(X, y):
         y_pred = np.sign(np.dot(w, x))
 
         y_target = y[t]
+
+        # implement a mistake function to calculate the number of mistakes in the perceptron algorithm to update the weight. 
 
         if y_pred != y_target: # if the prediction is wrong, update the weights.
 
