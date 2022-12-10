@@ -1,0 +1,15 @@
+The average training score for d = 1 is 1.0
+The standard deviation of the training score for d = 1 is 0.0
+The average test score for d = 1 is 0.9257795698924731
+The standard deviation of the test score for d = 1 is 0.0060240849889217065
+The average training score for d = 2 is 1.0
+The standard deviation of the training score for d = 2 is 0.0
+The average test score for d = 2 is 0.9268817204301074
+The standard deviation of the test score for d = 2 is 0.005031982347009714
+The average training score for d = 3 is 1.0
+The standard deviation of the training score for d = 3 is 0.0
+The standard deviation of the test score for d = 6 is 0.006732838008039544
+The average training score for d = 7 is 1.0
+The standard deviation of the training score for d = 7 is 0.0
+The average test score for d = 7 is 0.8914247311827956
+The standard deviation of the test score for d = 7 is 0.007335262493388952

@@ -13,6 +13,9 @@ from split_data import split_data
 import random # import the random library to help with schuffling the data. 
 
 from multiclassperceptron import MultiClassPerceptron # import the multiclassperceptron class from multiclassperceptron.py
+
+from cross_validation import cross_validation # import the cross_validation function from cross_validation.py
+
 # load the data
 data = load_data()
 
@@ -72,25 +75,28 @@ for d in range(1, 8): # do 20 runs on the dataset.
         X_train, X_test = split_data(matrixs_random) # split the data into training and testing data
 
         y_train, y_test = split_data(labels_random) # split the labels into training and testing labels
+
+        cross_validation_data = cross_validation(X_train, y_train, 5) # perform 5 fold cross validation on the training data
+
+        train_scores = np.empty((5)) # create an empty array to store the training scores
+
+        test_scores = np.empty((5)) # initialise the test scores as an empty list.
     
-        model = MultiClassPerceptron(10) # create a multi class perceptron model
+        for index, (X_train, y_train, X_test, y_test) in enumerate(cross_validation_data): # loop through the cross validation data
 
-        model.polynomial_fitting(d) # fit the model to the data with the polynomial kernel of degree d. 
+            model = MultiClassPerceptron(10) # create a multi class perceptron model
 
-        train_score = model.train(X_train, y_train) # train the model
+            model.gaussian_fitting(d) # fit the model to the data with the polynomial kernel of degree d. 
 
-        test_score, _, _ = model.test(X_test, y_test) # test the model
+            train_score = model.train(X_train, y_train)[0] # train the model
 
-        train_scores[runs] = train_score[0] # append the training score to the training scores list
+            test_score, _, _ = model.test(X_test, y_test) # test the model
 
-        test_scores[runs] = test_score # append the test score to the test scores list
+            train_scores[index] = train_score # store the training score
 
-    print("The average training score for d = " + str(d) + " is " + str(np.mean(train_scores))) # print the average training score
+            test_scores[index] = test_score # store the test score
 
-    print("The standard deviation of the training score for d = " + str(d) + " is " + str(np.std(train_scores))) # print the standard deviation of the training score
-
-    print("The average test score for d = " + str(d) + " is " + str(np.mean(test_scores))) # print the average test score
-
-    print("The standard deviation of the test score for d = " + str(d) + " is " + str(np.std(test_scores))) # print the standard deviation of the test score
+        print("Average training score for degree " + str(d) + " is " + str(np.mean(train_scores)) + " with cross-validation training. ") # print the average training score under cross validation
+        print("Average test score for degree " + str(d) + " is " + str(np.mean(test_scores)) + " with cross-validation training. ") # print the average test score under cross validation
 
 print("SUCCESS") # print success if the code runs without errors
