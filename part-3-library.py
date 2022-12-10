@@ -29,13 +29,13 @@ def winnow_algorithm(X_train, X_test, y_train):
 
         x_i, y_i = X_train[i], y_train[i] # receive patterns x = {0, 1} and y = {0, 1}.
 
-        y_i_hat = 0 if weights @ x_i < n else 1 # predict the label.
+        y_i_hat = -1 if weights @ x_i < n else 1 # predict the label.
 
         if (y_i_hat != y_i): # if the prediction is wrong, update the weights.
             weights *= np.float_power(2, ((y_i - y_i_hat) * x_i)) # update the weights.
 
 
-    return np.where(X_test @ weights < n, 0, 1) # return the predicted labels.
+    return np.where(X_test @ weights < n, -1, 1) # return the predicted labels.
 
 def perceptron_algorithm(X, y):
 
@@ -189,7 +189,11 @@ for n in range(100):
 
         n_errors = np.sum(y_pred != y_test) # find the number of errors.
 
+        print("Number of errors", n_errors)
+
         generalization_error = n_errors / len(y_test) # calculate the generalization error.
+
+        print("Generalization error", generalization_error)
 
         if generalization_error <= 0.1: # if the generalization error is less than or equal to 0.1, allocate the value to the array.
 
