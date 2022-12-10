@@ -168,55 +168,60 @@ def train_test_split(data):
 
 models = np.array([Winnow(), LeastSquare(), OneNearestNeighbor(), Perceptron()])
 
-M = np.empty((len(models), 100)) # create an array to store the errors by dimension.
-M[:] = np.nan
+M = np.zeros((len(models), 100)) # create an array to store the errors by dimension.
+E_S = 50
 
 for n in range(1, 101):
 
     generalization_error = float('inf') # initialize the generalization error.
 
-    m = 1 # initialize the number of samples.
-
     # Approximate 2^n by maclaurin expansion up to x^2.
     # MC: We use this to sample the population \mathcal{X} to approximate expectation
     # TODO analyse the bias and try to incorporate importance weighting.
     N = int(n * np.log(2))
-    L = int(1 + N + N * N / 4)
-    masked = np.zeros(len(models), dtype=bool)
+    L = int(1 + N)
 
     print("RUNNING: n = %0.3d / 100"%(n), end='\r')
 
-    while m <= 100:
+    cnts = np.zeros((len(models)))
 
-        # No need for train test spilt, as we have direct access to D
-        # we can simply drawn from D for any novel test points.
-        X_test, y_test = sample_data(L, n)
-        X, y = sample_data(m, n) # sample S_m
+    for _ in range(E_S):
+        masked = np.zeros(len(models), dtype=bool)
+        m = 1
+        while m <= 100:
 
-        # no need to proceed no classifier is pending
-        if np.prod(masked) == 1:
-            break
-            
-        for i, model in enumerate(models):
-            if masked[i]:
-                continue
+            # No need for train test spilt, as we have direct access to D
+            # we can simply drawn from D for any novel test points.
+            X_test, y_test = sample_data(L, n)
+            X, y = sample_data(m, n) # sample S_m
 
-            model.fit(X, y)
-
-            y_pred = model.pred(X_test) # predict the labels using the winnow algorithm.
-
-            generalization_error = mistake(y_pred, y_test) # calculate the generalization error.
-
-            if generalization_error <= 0.1: # if the generalization error is less than or equal to 0.1, allocate the value to the array.
-                
-                # mark this classifier as ok
-                masked[i] = True
-                M[i, n - 1] = m # store the generalization error.
-
+            # no need to proceed no classifier is pending
+            if np.prod(masked) == 1:
                 break
-            
-        m += 1 # increment the number of samples.
+                
+            for i, model in enumerate(models):
+                if masked[i]:
+                    continue
+
+                model.fit(X, y)
+
+                y_pred = model.pred(X_test) # predict the labels using the winnow algorithm.
+
+                generalization_error = mistake(y_pred, y_test) # calculate the generalization error.
+
+                if generalization_error <= 0.1: # if the generalization error is less than or equal to 0.1, allocate the value to the array.
+                    
+                    # mark this classifier as ok
+                    masked[i] = True
+                    M[i, n - 1] += m # store the generalization error.
+                    cnts[i] += 1
+                    break
+                
+            m += 1 # increment the number of samples.
+    M[:, n - 1] /= np.maximum(cnts, 1)
 print()
+
+M[M == 0] = np.nan
 
 for i in range(M.shape[0]):
     model = models[i]
