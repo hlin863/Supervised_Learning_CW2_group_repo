@@ -51,15 +51,7 @@ class Perceptron(PredictorBase):
         super().__init__("Perceptron")
     
     def fit(self, X, y):
-        weights = [] # intialise a list to store the weights.
-
-        M = [] # initialise a list to store the margin.
-
         w = np.zeros(len(X[0])) # initialize the weight vector to 0.
-
-        weights.append(w) # append the initial weight vector.
-
-        M.append(0) # append the initial margin.
 
         for t in range(len(X)): # iterate over the data from t = 1 to m.
 
@@ -77,12 +69,10 @@ class Perceptron(PredictorBase):
 
                 w = w + y_target * x
 
-            weights.append(w)
-
-        self.__w = weights
+        self.__w = w
 
     def pred(self, X):
-        raise NotImplemented()
+        return np.where(X @ self.__w <= 0, -1, 1)
 
 class LeastSquare(PredictorBase):
     def __init__(self) -> None:
@@ -176,7 +166,7 @@ def train_test_split(data):
 
     return data[:int(len(data) * 0.8)], data[int(len(data) * 0.8):] # return the training and testing data.
 
-models = np.array([Winnow(), LeastSquare(), OneNearestNeighbor()])
+models = np.array([Winnow(), LeastSquare(), OneNearestNeighbor(), Perceptron()])
 
 M = np.empty((len(models), 100)) # create an array to store the errors by dimension.
 M[:] = np.nan
