@@ -159,10 +159,28 @@ def sample_data(m, n):
 
     y = np.random.choice([-1, 1], size = (m, 1)) # sample the labels.
 
-    print("X: ", X) # print the data.
+    return X, y # return the data and labels.
 
-    print("y: ", y) # print the labels.
+def train_test_split(data):
 
+    """
+    
+    Implement a function to split the data into training and testing data.
 
-# test function for sampling the dataset.
-sample_data(4, 3)
+    @param data: The data.
+    
+    @return: The training and testing data.
+
+    """
+
+    return data[:int(len(data) * 0.8)], data[int(len(data) * 0.8):] # return the training and testing data.
+
+for n in range(100):
+
+    for m in range(40):
+
+        X, y = sample_data(m, n) # sample the data.
+
+        X_train, X_test = train_test_split(X) # split the data into training and testing data.
+
+print("SUCCESS!")
