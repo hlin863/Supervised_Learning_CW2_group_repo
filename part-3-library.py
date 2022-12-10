@@ -143,3 +143,17 @@ def plot_complexity(classifier_function, dimensions, samples_per_dimension):
 
     plt.savefig("complexity.png") # save the plot as a png file.
 
+def sample_data(m, n):
+
+    """
+    
+    Implement a function to sample data.
+
+    @param m: The number of samples.
+
+    @param n: The number of dimensions.
+    
+    """
+
+    pass
+
