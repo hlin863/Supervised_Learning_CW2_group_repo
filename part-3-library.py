@@ -151,7 +151,7 @@ def sample_data(m, n):
 
     X = np.random.choice([-1, 1], size = (m, n)) # sample the data.
 
-    y = X[:, 0] # y[i] = X[i, 0]. 
+    y = np.random.choice([-1, 1], size = (m, 1)) # sample the labels.
 
     return X, y # return the data and labels.
 
