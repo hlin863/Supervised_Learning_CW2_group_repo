@@ -155,5 +155,14 @@ def sample_data(m, n):
     
     """
 
-    pass
+    X = np.random.choice([-1, 1], size = (m, n)) # sample the data.
 
+    y = np.random.choice([-1, 1], size = (m, 1)) # sample the labels.
+
+    print("X: ", X) # print the data.
+
+    print("y: ", y) # print the labels.
+
+
+# test function for sampling the dataset.
+sample_data(4, 3)
