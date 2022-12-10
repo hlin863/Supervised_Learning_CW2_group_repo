@@ -151,7 +151,7 @@ def sample_data(m, n):
 
     X = np.random.choice([-1, 1], size = (m, n)) # sample the data.
 
-    y = np.random.choice([-1, 1], size = (m, 1)) # sample the labels.
+    y = X[:, 0]
 
     return X, y # return the data and labels.
 
@@ -171,7 +171,7 @@ def train_test_split(data):
 
 errors_by_dimension = np.zeros(100) # create an array to store the errors by dimension.
 
-for n in range(100):
+for n in range(1, 100):
 
     generalization_error = float('inf') # initialize the generalization error.
 
