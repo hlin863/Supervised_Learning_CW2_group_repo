@@ -31,10 +31,13 @@ class Winnow(PredictorBase):
 
         self.__n = X.shape[1] # find the number of dimensions.
 
+        X_ = (X == 1).astype(int)
+        y_ = (y == 1).astype(int)
+
         # Training loop
         for i in range(X.shape[0]): # iterate over the training data.
 
-            x_i, y_i = X[i], y[i] # receive patterns x = {0, 1} and y = {0, 1}.
+            x_i, y_i = X_[i], y_[i] # receive patterns x = {0, 1} and y = {0, 1}.
 
             y_i_hat = -1 if weights @ x_i < n else 1 # predict the label.
 
@@ -44,7 +47,8 @@ class Winnow(PredictorBase):
         self.__w = weights
 
     def pred(self, X):
-        return np.where((X @ self.__w) < self.__n, -1, 1) # return the predicted labels.
+        X_ = (X == 1).astype(int)
+        return np.where((X_ @ self.__w) < self.__n, -1, 1) # return the predicted labels.
 
 class Perceptron(PredictorBase):
     def __init__(self) -> None:
