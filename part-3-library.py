@@ -169,9 +169,15 @@ def train_test_split(data):
 
     return data[:int(len(data) * 0.8)], data[int(len(data) * 0.8):] # return the training and testing data.
 
+errors_by_dimension = np.zeros(100) # create an array to store the errors by dimension.
+
 for n in range(100):
 
-    for m in range(40):
+    generalization_error = float('inf') # initialize the generalization error.
+
+    m = 1 # initialize the number of samples.
+
+    while m <= 40:
 
         X, y = sample_data(m, n) # sample the data.
 
@@ -179,12 +185,26 @@ for n in range(100):
 
         y_train, y_test = train_test_split(y) # split the labels into training and testing labels.
 
-        # y_pred = winnow_algorithm(X_train, X_test, y_train) # predict the labels using the winnow algorithm.
-
         y_pred = winnow_algorithm(X_train, X_test, y_train) # predict the labels using the winnow algorithm.
 
         n_errors = np.sum(y_pred != y_test) # find the number of errors.
 
-        print("Number of errors: ", n_errors) # print the number of errors.
+        generalization_error = n_errors / len(y_test) # calculate the generalization error.
+
+        if generalization_error <= 0.1: # if the generalization error is less than or equal to 0.1, allocate the value to the array.
+
+            errors_by_dimension[n] = generalization_error # store the generalization error.
+
+            break
+            
+        m += 1 # increment the number of samples.
+
+plt.plot(range(100), errors_by_dimension, label="winnow") # plot the errors by dimension.
+
+plt.xlabel("Dimensions") # set the x-axis label.
+
+plt.ylabel("Generalization error") # set the y-axis label.
+
+plt.savefig("Part-3-images/generalization_error.png") # save the plot as a png file.
 
 print("SUCCESS!")
