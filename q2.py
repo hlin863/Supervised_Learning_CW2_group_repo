@@ -53,7 +53,11 @@ for i in range(len(processed_data) - 1): # loop through the lines to remove the 
 
 test_errors = np.empty((20)) # initialise the test scores as an empty list to store the test errors for each run.
 
+test_stds = np.empty((20)) # initialise the test standard deviations as an empty list to store the test standard deviations for each run.
+
 best_degrees = np.empty((20)) # initialise the best degrees as an empty list to store the best degree for each run.
+
+best_degrees_std = np.empty((20)) # initialise the best degrees standard deviations as an empty list to store the best degree standard deviations for each run.
 
 # reshuffle the labels
 for runs in range(20): # perform 20 runs
