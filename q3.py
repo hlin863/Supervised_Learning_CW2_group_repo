@@ -169,4 +169,19 @@ for runs in range(20): # do 20 runs on the dataset.
     # saves the plot as a png file in Q3_confusion_matrices folder
     plt.savefig("Q3_confusion_matrices/confusion_matrix_" + str(runs) + ".png")
 
+# caculate the mean confusion matrix
+mean_confusion_matrix = np.mean(confusion_matrices, axis=0)
+
+fig, ax = plt.subplots() # create a figure and axis
+
+im = ax.imshow(mean_confusion_matrix) # plot the mean confusion matrix
+
+ax.set_xticks(np.arange(len(mean_confusion_matrix))) # set the x ticks
+
+ax.set_yticks(np.arange(len(mean_confusion_matrix))) # set the y ticks
+
+fig.colorbar(im) # create a colour bar to highlight the images.
+
+plt.savefig("Q3_confusion_matrices/mean_confusion_matrix.png") # save the plot as a png file in Q3_confusion_matrices folder
+
 print("SUCCESS") # print success if the code runs without errors
