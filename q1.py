@@ -4,6 +4,8 @@
 
 import numpy as np # import the numpy library
 
+import pandas as pd # import the pandas library
+
 # import the load_data function from load_data.py
 from load_data import load_data
 
@@ -46,6 +48,11 @@ for i in range(len(processed_data) - 1): # loop through the lines to remove the 
 
     matrixs.append(matrix) # append the matrix to the matrixs list
 
+train_errors = np.zeros(7) # create an empty array to store the training errors
+train_stds = np.zeros(7) # create an empty array to store the standard deviations of the training errors
+test_errors = np.zeros(7) # create an empty array to store the test errors
+test_stds = np.zeros(7) # create an empty array to store the standard deviations of the test errors
+
 # reshuffle the labels
 for d in range(1, 8): # do 20 runs on the dataset.
 
@@ -81,9 +88,17 @@ for d in range(1, 8): # do 20 runs on the dataset.
 
         test_score, _, _ = model.test(X_test, y_test) # test the model
 
-        train_scores[runs] = train_score[0] # append the training score to the training scores list
+        train_scores[runs] = 1 - train_score[0] # append the training score to the training scores list
 
-        test_scores[runs] = test_score # append the test score to the test scores list
+        test_scores[runs] = 1 - test_score # append the test score to the test scores list
+    
+    train_errors[d - 1] = np.mean(train_scores) # store the average training score in the training scores array
+
+    train_stds[d - 1] = np.std(train_scores) # store the standard deviation of the training score in the training stds array
+
+    test_errors[d - 1] = np.mean(test_scores) # store the average test score in the test scores array
+
+    test_stds[d - 1] = np.std(test_scores) # store the standard deviation of the test score in the test stds array
 
     print("The average training score for d = " + str(d) + " is " + str(np.mean(train_scores))) # print the average training score
 
@@ -92,5 +107,24 @@ for d in range(1, 8): # do 20 runs on the dataset.
     print("The average test score for d = " + str(d) + " is " + str(np.mean(test_scores))) # print the average test score
 
     print("The standard deviation of the test score for d = " + str(d) + " is " + str(np.std(test_scores))) # print the standard deviation of the test score
+
+# convert train_errors and test_errors to a pandas dataframe
+train_errors = pd.DataFrame(train_errors)
+
+test_errors = pd.DataFrame(test_errors)
+
+# convert train_stds and test_stds to a pandas dataframe
+train_stds = pd.DataFrame(train_stds)
+
+test_stds = pd.DataFrame(test_stds)
+
+# save the dataframes to csv files
+train_errors.to_csv("Q1-data/train_errors.csv", index=False, header=False)
+
+test_errors.to_csv("Q1-data/test_errors.csv", index=False, header=False)
+
+train_stds.to_csv("Q1-data/train_stds.csv", index=False, header=False)
+
+test_stds.to_csv("Q1-data/test_stds.csv", index=False, header=False)
 
 print("SUCCESS") # print success if the code runs without errors
