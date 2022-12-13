@@ -1,0 +1,124 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\author{}
+\date{}
+
+\begin{document}
+
+1.
+
+This question trains a one-vs-rest polynomial kernel perceptron on
+polynomials of degrees \(D\) such that
+\(D \in \left\{ 1,2,3,4,5,6,7 \right\}\) over 20 iterations. From the
+training and testing functions, the program derives the training and
+testing errors and standard deviations for each polynomial degree \(D\).
+
+Train Standard Deviations
+
+0.0028100157448148395
+
+0.002376631713456373
+
+0.0019988908757994778
+
+0.0022498917047259026
+
+0.001983868744610059
+
+0.0016783933339908563
+
+0.0016029963496411606
+
+Train Errors
+
+0.15152594783543966
+
+0.10606345791879539
+
+0.09081742403872009
+
+0.08409518687819306
+
+0.08152729228287174
+
+0.0794501210002689
+
+0.07921484269965044
+
+Test Standard Deviation
+
+0.02659702741412829
+
+0.010390784703391056
+
+0.008583438990556934
+
+0.006946259446015748
+
+0.02664805704712137
+
+0.006103038635577457
+
+0.00465131449785794
+
+Test Errors
+
+0.10959677419354838
+
+0.06631720430107527
+
+0.05900537634408602
+
+0.05169354838709676
+
+0.056370967741935486
+
+0.047419354838709675
+
+0.04491935483870968
+
+\end{document}

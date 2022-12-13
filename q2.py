@@ -128,7 +128,16 @@ for runs in range(20): # perform 20 runs
 
     test_errors[runs] = best_test_error # store the test error
 
+    # round test_errors[runs] to 3 significant figures
+    test_errors[runs] = round(test_errors[runs], 3)
+
+    # this value will be the element from the test_std_list that corresponds to the best degree
+    test_stds[runs] = test_std_list[best_degree] # store the test standard deviation
+
     best_degrees[runs] = best_degree # store the best degree
+
+    # round best_degrees[runs] to 3 significant figures
+    best_degrees[runs] = round(best_degrees[runs], 3)
 
 print("The average test error is: ", np.mean(test_errors)) # print the average test error
 
@@ -150,4 +159,26 @@ test_errors_df.to_csv("test_errors.csv")
 # save the best degrees to a csv file
 best_degrees_df.to_csv("best_degrees.csv")
 
+# create a 2 by 2 array to store the mean data and standard deviation data for the variables test_errors and best_degrees.
+mean_data = np.empty((2, 2))
+
+mean_data[0][0] = np.mean(test_errors) # store the mean of the test errors
+
+mean_data[0][1] = np.mean(best_degrees) # store the mean of the best degrees
+
+mean_data[1][0] = np.std(test_errors) # store the standard deviation of the test errors
+
+mean_data[1][1] = np.std(best_degrees) # store the standard deviation of the best degrees
+
+# convert the mean data to a pandas dataframe
+mean_data_df = pd.DataFrame(mean_data)
+
+# add column names to the mean data dataframe
+mean_data_df.columns = ["test_errors", "best_degrees"]
+
+# add row names to the mean data dataframe
+mean_data_df.index = ["mean", "std"]
+
+# save the mean data to a csv file
+mean_data_df.to_csv("mean_data.csv")
 print("SUCCESS") # print success if the code runs without errors
