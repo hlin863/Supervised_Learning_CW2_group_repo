@@ -1,0 +1,99 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage{longtable,booktabs}
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\author{}
+\date{}
+
+\begin{document}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule
+Runs & C & Test Error\tabularnewline
+\midrule
+\endhead
+0 & 4 & 0.163\tabularnewline
+1 & 5 & 0.138\tabularnewline
+2 & 4 & 0.157\tabularnewline
+3 & 4 & 0.138\tabularnewline
+4 & 3 & 0.077\tabularnewline
+5 & 5 & 0.109\tabularnewline
+6 & 3 & 0.125\tabularnewline
+7 & 4 & 0.099\tabularnewline
+8 & 5 & 0.112\tabularnewline
+9 & 5 & 0.154\tabularnewline
+10 & 4 & 0.135\tabularnewline
+11 & 4 & 0.135\tabularnewline
+12 & 4 & 0.138\tabularnewline
+13 & 5 & 0.163\tabularnewline
+14 & 4 & 0.122\tabularnewline
+15 & 3 & 0.151\tabularnewline
+16 & 4 & 0.141\tabularnewline
+17 & 4 & 0.096\tabularnewline
+18 & 4 & 0.099\tabularnewline
+19 & 4 & 0.109\tabularnewline
+\bottomrule
+\end{longtable}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule
+& test errors & best degrees\tabularnewline
+\midrule
+\endhead
+mean & 0.12805 & 4.1\tabularnewline
+std & 0.023867289 & 0.6244998\tabularnewline
+\bottomrule
+\end{longtable}
+
+\end{document}
